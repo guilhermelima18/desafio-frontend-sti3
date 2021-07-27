@@ -1,67 +1,50 @@
-import editIcon from '../../assets/edit.svg';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
+import TableRequests from '../TableRequests';
+import Title from '../Title';
+import TopProducts from '../TopProducts';
 import styles from './styles.module.scss';
 
 const BoxRequests = () => {
+  const { pathname } = window.location;
+  const [requests, setRequests] = React.useState([]);
+  const [loading, setLoading] = React.useState(null);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setLoading(true);
+
+    await fetch("https://desafiotecnicosti3.azurewebsites.net/pedido")
+      .then(response => response.json())
+      .then(item => setRequests(item))
+
+    setLoading(false);
+  };
+
   return (
     <section>
       <header>
         <div className={styles.actionRequests}>
-          <h2>Listagem de pedidos</h2>
-          <p>
-            Aqui você poderá visualizar todos os pedidos emitidos.
-          </p>
+          <Title 
+            h2="Listagem de pedidos" 
+            p="Aqui você poderá visualizar todos os pedidos emitidos." 
+          />
         </div>
-        <form action="">
+        <form action="" onSubmit={handleSubmit}>
           <button type="submit">Consultar</button>
         </form>
       </header>
       <main>
         <div className={styles.btnNavegation}>
-          <a href="/">Pedidos</a>
-          <a href="/">Produtos mais vendidos</a>
+          <Link to="/">Pedidos</Link>
+          <Link to="/top-products">Produtos mais vendidos</Link>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Status</th>
-              <th>CPF do cliente</th>
-              <th>Desconto</th>
-              <th>Frete</th>
-              <th>Subtotal</th>
-              <th>Total</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Aprovado</td>
-              <td>441.846.828-55</td>
-              <td>441.846.828-55</td>
-              <td>441.846.828-55</td>
-              <td>441.846.828-55</td>
-              <td>441.846.828-55</td>
-              <td>
-                <a href="/">
-                  <img src={editIcon} alt="Editar" />
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Aprovado</td>
-              <td>441.846.828-55</td>
-              <td>441.846.828-55</td>
-              <td>441.846.828-55</td>
-              <td>441.846.828-55</td>
-              <td>441.846.828-55</td>
-              <td>
-                <a href="/">
-                  <img src={editIcon} alt="Editar" />
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        {pathname === "/" ? (
+          <TableRequests requests={requests} loading={loading} />
+        ) : (
+          <TopProducts />
+        )}
       </main>
     </section>
   );

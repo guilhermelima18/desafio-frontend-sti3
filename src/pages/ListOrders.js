@@ -1,3 +1,4 @@
+import React from 'react';
 import BoxRequests from "../components/BoxRequests";
 
 import styles from '../styles/ListOrders.module.scss';
