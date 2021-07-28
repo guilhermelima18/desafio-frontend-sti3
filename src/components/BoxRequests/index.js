@@ -1,4 +1,5 @@
 import React from 'react';
+import { GlobalContext } from '../../contexts/GlobalContext';
 import { Link } from 'react-router-dom';
 
 import TableRequests from '../TableRequests';
@@ -7,21 +8,10 @@ import TopProducts from '../TopProducts';
 import styles from './styles.module.scss';
 
 const BoxRequests = () => {
+  const { handleSubmit } = React.useContext(GlobalContext);
+
   const { pathname } = window.location;
-  const [requests, setRequests] = React.useState([]);
-  const [loading, setLoading] = React.useState(null);
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setLoading(true);
-
-    await fetch("https://desafiotecnicosti3.azurewebsites.net/pedido")
-      .then(response => response.json())
-      .then(item => setRequests(item))
-
-    setLoading(false);
-  };
-
+  
   return (
     <section>
       <header>
@@ -41,7 +31,7 @@ const BoxRequests = () => {
           <Link to="/top-products">Produtos mais vendidos</Link>
         </div>
         {pathname === "/" ? (
-          <TableRequests requests={requests} loading={loading} />
+          <TableRequests />
         ) : (
           <TopProducts />
         )}

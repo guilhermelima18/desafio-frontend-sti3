@@ -1,11 +1,16 @@
+import React from 'react';
+import { GlobalContext } from '../../contexts/GlobalContext';
 import { Link } from 'react-router-dom';
+
 import editIcon from '../../assets/edit.svg';
 import approvedIcon from '../../assets/approved.svg';
 import cancelIcon from '../../assets/cancel.svg';
 
 import styles from './styles.module.scss';
 
-const TableRequests = ({ requests, loading }) => {
+const TableRequests = () => {
+  const { requests, maskCpf, convertCurrency } = React.useContext(GlobalContext);
+
   return (
     <table className={styles.table}>
       <thead>
@@ -21,39 +26,37 @@ const TableRequests = ({ requests, loading }) => {
       </thead>
       <tbody>
         {
-          loading ? <h1>Loading...</h1> :
-          requests.map((item) => {
-            return (
-              <tr key={item.numero}>
-                {item.status === "APROVADO" ? (
-                  <td style={{ color: 'green' }}>
-                    <img src={approvedIcon} alt="Pedido aprovado" />
-                    {item.status}
+          requests === null ? (null) : (
+            requests.map((item) => {
+              return (
+                <tr key={item.numero}>
+                  {item.status === "APROVADO" ? (
+                    <td style={{ color: 'green' }}>
+                      <img src={approvedIcon} alt="Pedido aprovado" />
+                      {item.status}
+                    </td>
+                  ) : (
+                    <td style={{ color: 'red' }}>
+                      <img src={cancelIcon} alt="Pedido cancelado" />
+                      {item.status}
+                    </td>
+                  )}
+                  <td>
+                    {maskCpf(item.cliente.cpf)}
                   </td>
-                ) : (
-                  <td style={{ color: 'red' }}>
-                    <img src={cancelIcon} alt="Pedido cancelado" />
-                    {item.status}
+                  <td>R$ {convertCurrency(item.desconto)}</td>
+                  <td>R$ {convertCurrency(item.frete)}</td>
+                  <td>R${convertCurrency(item.subTotal)}</td>
+                  <td>R$ {convertCurrency(item.valorTotal)}</td>
+                  <td>
+                    <Link to={`/change-orders/${item.id}`}>
+                      <img src={editIcon} alt="Editar Pedido" />
+                    </Link>
                   </td>
-                )}
-                <td>
-                  {
-                    item.cliente.cpf
-                      .replace(/(\d{3})?(\d{3})?(\d{3})?(\d{2})/, "$1.$2.$3-$4")
-                  }
-                </td>
-                <td>R$ {item.desconto.toFixed(2).replace('.', ',')}</td>
-                <td>R$ {item.frete.toFixed(2).replace('.', ',')}</td>
-                <td>R${item.subTotal.toFixed(2).replace('.', ',')}</td>
-                <td>R$ {item.valorTotal.toFixed(2).replace('.', ',')}</td>
-                <td>
-                  <Link to={`/change-orders/${item.numero}`}>
-                    <img src={editIcon} alt="Editar Pedido" />
-                  </Link>
-                </td>
-              </tr>
-            )
-          })
+                </tr>
+              )
+            })
+          )
         }
       </tbody>
     </table>

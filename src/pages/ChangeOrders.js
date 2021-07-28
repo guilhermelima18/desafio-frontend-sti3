@@ -1,17 +1,16 @@
+import React from 'react';
+import { GlobalContext } from '../contexts/GlobalContext';
+
 import Title from '../components/Title';
 
 import styles from '../styles/ChangeOrders.module.scss';
+import { useParams } from 'react-router-dom';
 
-const ChangeOrders = () => {
-  const { pathname } = window.location;
-  console.log(pathname)
+const ChangeOrders = (props) => {
+  const { requests } = React.useContext(GlobalContext);
+  const { id } = useParams();
 
-  function pedidos(req) {
-    const orders = req.body;
-    console.log(orders)
-  };
-
-  pedidos()
+  console.log(id)
 
   return (
     <section>
@@ -29,17 +28,18 @@ const ChangeOrders = () => {
       </header>
       <section className={styles.main}>
         <div className={styles.requestDescription}>
-          <h2>Venda nº 1</h2>
-          <p><strong>Data:</strong> Quarta-feira, 28/04/2021 - 23h53</p>
-          <p><strong>Status:</strong> Aprovada</p>
-          <p><strong>Desconto:</strong> R$ 10,00</p>
-          <p><strong>Frete:</strong> R$ 25,00</p>
-          <p><strong>Subtotal:</strong> R$ 270,70</p>
-          <p><strong>Total:</strong> R$ 305,70</p>
-          <span>
-            Endereço de entrega: {' '}
-            <strong>Rua Star Labs, 100 - Midtown - Central City (KS)</strong>
-          </span>
+          {/* <h2>Venda nº {order.numero}</h2>
+          <p>{order.status}</p>
+          <p>{order.desconto}</p>
+          <p>{order.frete}</p>
+          <p>{order.subTotal}</p>
+          <p>{order.valorTotal}</p><br />
+          <p>
+            Endereço de entrega: Rua {order.enderecoEntrega.endereco}, {' '} 
+            {order.enderecoEntrega.numero} - {' '}
+            {order.enderecoEntrega.bairro} - 
+            {order.enderecoEntrega.cidade} ({order.enderecoEntrega.estado})
+          </p> */}
         </div>
         <form action="" className={styles.formChangeOrders}>
           <h2>Informações do cliente</h2>
