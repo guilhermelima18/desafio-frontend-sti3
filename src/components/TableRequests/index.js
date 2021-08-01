@@ -49,7 +49,7 @@ const TableRequests = () => {
                   <td>R${convertCurrency(item.subTotal)}</td>
                   <td>R$ {convertCurrency(item.valorTotal)}</td>
                   <td>
-                    <Link to={`/change-orders/${item.id}`}>
+                    <Link to={`/change-orders/${item.numero}`}>
                       <img src={editIcon} alt="Editar Pedido" />
                     </Link>
                   </td>

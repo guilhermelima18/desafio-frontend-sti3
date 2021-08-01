@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import TableRequests from '../TableRequests';
 import Title from '../Title';
-import TopProducts from '../TopProducts';
+import BoxTopProducts from '../BoxTopProducts';
 import styles from './styles.module.scss';
 
 const BoxRequests = () => {
@@ -33,7 +33,7 @@ const BoxRequests = () => {
         {pathname === "/" ? (
           <TableRequests />
         ) : (
-          <TopProducts />
+          <BoxTopProducts />
         )}
       </main>
     </section>

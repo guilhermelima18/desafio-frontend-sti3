@@ -3,8 +3,16 @@ import React from 'react';
 export const GlobalContext = React.createContext();
 
 export const GlobalStorage = ({ children }) => {
-  const [requests, setRequests] = React.useState([]);
-  const [loading, setLoading] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const [requests, setRequests] = React.useState(() => {
+    const storagedRequests = localStorage.getItem('@DesafioFrontend:requests');
+
+    if (storagedRequests) {
+      return JSON.parse(storagedRequests);
+    }
+
+    return [];
+  });
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -16,6 +24,10 @@ export const GlobalStorage = ({ children }) => {
 
     setLoading(false);
   };
+
+  React.useEffect(() => {
+    localStorage.setItem('@DesafioFrontend:requests', JSON.stringify(requests));
+  }, [requests]);
 
   function maskCpf(n) {
     return n.replace(/(\d{3})?(\d{3})?(\d{3})?(\d{2})/, "$1.$2.$3-$4");
@@ -29,6 +41,7 @@ export const GlobalStorage = ({ children }) => {
     <GlobalContext.Provider
       value={{
         requests,
+        setRequests,
         loading,
         handleSubmit,
         maskCpf,
