@@ -13,6 +13,7 @@
     padding: 15px 5px;
     gap: 10px;
     border-radius: 4px;
+    text-align: center;
 
     h1, h3 {
       color: var(--yellow-900)
@@ -36,5 +37,21 @@
         font-weight: 500;
       }
     }
+  }
+}
+
+@media (max-width: 670px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+
+    .card {
+      margin: 10px 0;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

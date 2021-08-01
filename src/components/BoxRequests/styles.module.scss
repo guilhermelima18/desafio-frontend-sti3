@@ -4,13 +4,18 @@ section {
   border: 1px solid var(--gray-200);
   border-radius: 6px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
 
   header {
     background-color: var(--gray-100);
+    width: 100%;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
+    padding: 15px 0;
 
     .actionRequests {
       width: 50%;
@@ -61,6 +66,26 @@ section {
 
       a:nth-child(1) {
         color: var(--blue-500);
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  section {
+    header {
+      flex-direction: column;
+      align-items: center;
+  
+      .actionRequests {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+  
+      form {
+        width: 100%;
+        justify-content: flex-start;
+        margin: 20px 0;
       }
     }
   }

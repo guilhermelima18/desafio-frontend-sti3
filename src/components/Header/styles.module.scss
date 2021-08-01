@@ -25,14 +25,33 @@ header {
         width: 2px;
         height: 25px;
       }
-
-      
     }
 
     .todayDate {
       width: 50%;
       display: flex;
       justify-content: flex-end;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  header {
+    margin-bottom: 30px;
+
+    nav {
+      flex-direction: column;
+      padding: 10px 0;
+  
+      .logo {
+        width: 80%;
+        margin: 15px 0;
+      }
+
+      .todayDate {
+        width: 80%;
+        justify-content: center;
+      }
     }
   }
 }

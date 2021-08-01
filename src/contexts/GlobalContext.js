@@ -29,12 +29,26 @@ export const GlobalStorage = ({ children }) => {
     localStorage.setItem('@DesafioFrontend:requests', JSON.stringify(requests));
   }, [requests]);
 
+  //Formatar Máscara CPF
   function maskCpf(n) {
     return n.replace(/(\d{3})?(\d{3})?(\d{3})?(\d{2})/, "$1.$2.$3-$4");
   };
 
+  // Formatar Moeda
   function convertCurrency(x) {
-    return x.toFixed(2).replace('.', ',');
+    return x.toLocaleString('pt-br', {
+      style: 'currency', currency: 'BRL'
+    })
+  };
+
+  // Formatar DATA
+  const option = {
+    year: 'numeric',
+    month: 'long',
+    weekday: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
   };
 
   return (
@@ -45,7 +59,8 @@ export const GlobalStorage = ({ children }) => {
         loading,
         handleSubmit,
         maskCpf,
-        convertCurrency
+        convertCurrency,
+        option
       }}>
       {children}
     </GlobalContext.Provider>

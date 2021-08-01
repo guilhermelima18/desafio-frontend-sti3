@@ -27,29 +27,30 @@ const TableRequests = () => {
       <tbody>
         {
           requests === null ? (null) : (
-            requests.map((item) => {
+            requests
+              .map(({numero, status, cliente, desconto, frete, subTotal, valorTotal}) => {
               return (
-                <tr key={item.numero}>
-                  {item.status === "APROVADO" ? (
+                <tr key={numero}>
+                  {status === "APROVADO" ? (
                     <td style={{ color: 'green' }}>
                       <img src={approvedIcon} alt="Pedido aprovado" />
-                      {item.status}
+                      {status}
                     </td>
                   ) : (
                     <td style={{ color: 'red' }}>
                       <img src={cancelIcon} alt="Pedido cancelado" />
-                      {item.status}
+                      {status}
                     </td>
                   )}
                   <td>
-                    {maskCpf(item.cliente.cpf)}
+                    {maskCpf(cliente.cpf)}
                   </td>
-                  <td>R$ {convertCurrency(item.desconto)}</td>
-                  <td>R$ {convertCurrency(item.frete)}</td>
-                  <td>R${convertCurrency(item.subTotal)}</td>
-                  <td>R$ {convertCurrency(item.valorTotal)}</td>
+                  <td>{convertCurrency(desconto)}</td>
+                  <td>{convertCurrency(frete)}</td>
+                  <td>{convertCurrency(subTotal)}</td>
+                  <td>{convertCurrency(valorTotal)}</td>
                   <td>
-                    <Link to={`/change-orders/${item.numero}`}>
+                    <Link to={`/change-orders/${numero}`}>
                       <img src={editIcon} alt="Editar Pedido" />
                     </Link>
                   </td>
