@@ -40,9 +40,9 @@
   }
 }
 
-@media (max-width: 670px) {
+@media (max-width: 900px) {
   .cards {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
 
     .card {
       margin: 10px 0;
@@ -52,6 +52,6 @@
 
 @media (max-width: 500px) {
   .cards {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 }
