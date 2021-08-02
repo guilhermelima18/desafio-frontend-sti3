@@ -3,7 +3,7 @@ import React from 'react';
 export const GlobalContext = React.createContext();
 
 export const GlobalStorage = ({ children }) => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(null);
   const [requests, setRequests] = React.useState(() => {
     const storagedRequests = localStorage.getItem('@DesafioFrontend:requests');
 

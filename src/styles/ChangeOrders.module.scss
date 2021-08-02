@@ -33,10 +33,19 @@
   
         .btnCancel {
           background-color: var(--red-500);
+          transition: 400ms;
+
+          &:hover {
+            background-color: var(--gray-700);
+          }
         }
   
         .btnSave {
           background-color: var(--green-500);
+
+          &:hover {
+            background-color: var(--gray-700);
+          }
         }
       }
     }

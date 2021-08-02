@@ -7,14 +7,16 @@ import approvedIcon from '../../assets/approved.svg';
 import cancelIcon from '../../assets/cancel.svg';
 
 import styles from './styles.module.scss';
+import Loading from '../Loading';
 
 const TableRequests = () => {
-  const { requests, maskCpf, convertCurrency } = React.useContext(GlobalContext);
+  const { requests, loading, maskCpf, convertCurrency } = React.useContext(GlobalContext);
 
   return (
     <table className={styles.table}>
       <thead>
         <tr>
+          <th>Nome</th>
           <th>Status</th>
           <th>CPF do cliente</th>
           <th>Desconto</th>
@@ -26,37 +28,38 @@ const TableRequests = () => {
       </thead>
       <tbody>
         {
-          requests === null ? (null) : (
+          loading ? <Loading /> : (
             requests
-              .map(({numero, status, cliente, desconto, frete, subTotal, valorTotal}) => {
-              return (
-                <tr key={numero}>
-                  {status === "APROVADO" ? (
-                    <td style={{ color: 'green' }}>
-                      <img src={approvedIcon} alt="Pedido aprovado" />
-                      {status}
+              .map(({ numero, status, cliente, desconto, frete, subTotal, valorTotal }) => {
+                return (
+                  <tr key={numero}>
+                    <td>{cliente.nome}</td>
+                    {status === "APROVADO" ? (
+                      <td style={{ color: 'green' }}>
+                        <img src={approvedIcon} alt="Pedido aprovado" />
+                        {status}
+                      </td>
+                    ) : (
+                      <td style={{ color: 'red' }}>
+                        <img src={cancelIcon} alt="Pedido cancelado" />
+                        {status}
+                      </td>
+                    )}
+                    <td>
+                      {maskCpf(cliente.cpf)}
                     </td>
-                  ) : (
-                    <td style={{ color: 'red' }}>
-                      <img src={cancelIcon} alt="Pedido cancelado" />
-                      {status}
+                    <td>{convertCurrency(desconto)}</td>
+                    <td>{convertCurrency(frete)}</td>
+                    <td>{convertCurrency(subTotal)}</td>
+                    <td>{convertCurrency(valorTotal)}</td>
+                    <td>
+                      <Link to={`/change-orders/${numero}`}>
+                        <img src={editIcon} alt="Editar Pedido" />
+                      </Link>
                     </td>
-                  )}
-                  <td>
-                    {maskCpf(cliente.cpf)}
-                  </td>
-                  <td>{convertCurrency(desconto)}</td>
-                  <td>{convertCurrency(frete)}</td>
-                  <td>{convertCurrency(subTotal)}</td>
-                  <td>{convertCurrency(valorTotal)}</td>
-                  <td>
-                    <Link to={`/change-orders/${numero}`}>
-                      <img src={editIcon} alt="Editar Pedido" />
-                    </Link>
-                  </td>
-                </tr>
-              )
-            })
+                  </tr>
+                )
+              })
           )
         }
       </tbody>

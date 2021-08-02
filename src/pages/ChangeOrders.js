@@ -1,13 +1,13 @@
 import React from 'react';
 import { GlobalContext } from '../contexts/GlobalContext';
+import { useParams, useHistory } from 'react-router-dom';
 
 import Title from '../components/Title';
 
 import styles from '../styles/ChangeOrders.module.scss';
-import { useParams, useHistory } from 'react-router-dom';
 
 const ChangeOrders = () => {
-  const { requests, convertCurrency, option } = React.useContext(GlobalContext);
+  const { requests, setRequests, convertCurrency, option } = React.useContext(GlobalContext);
   const { id } = useParams();
   const history = useHistory();
 
@@ -19,8 +19,15 @@ const ChangeOrders = () => {
     frete,
     subTotal,
     valorTotal,
-    enderecoEntrega
+    enderecoEntrega,
+    cliente
   } = requests[id - 1];
+
+  const [form, setForm] = React.useState({
+    nome: cliente.nome,
+    email: cliente.email,
+    cpf: cliente.cpf,
+  });
 
   const data = new Date(dataCriacao).toLocaleDateString('pt-br', option);
 
@@ -28,9 +35,27 @@ const ChangeOrders = () => {
     history.push("/");
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const { cliente: oldCustomer, ...rest } = requests[id - 1]
+
+    const updateRequest = { ...rest, cliente: { ...oldCustomer, ...form } }
+    requests.splice(id - 1, 1, updateRequest);
+
+    localStorage.setItem('@DesafioFrontend:requests', JSON.stringify(requests));
+    setRequests(requests);
+
+    history.push("/");
+  };
+
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className={styles.container}>
-      <section>
+      <section role="form" onSubmit={e => handleSubmit(e)}>
         <header>
           <div className={styles.actionRequests}>
             <Title
@@ -74,15 +99,15 @@ const ChangeOrders = () => {
             <h2>Informações do cliente</h2>
             <div className={styles.inputGroup}>
               <label htmlFor="name">Nome *</label>
-              <input type="text" id="name" />
+              <input type="text" id="name" name="nome" value={form.nome} onChange={e => handleChange(e)} />
             </div>
             <div className={styles.inputGroup}>
               <label htmlFor="email">E-mail *</label>
-              <input type="email" id="email" />
+              <input type="email" id="email" name="email" value={form.email} onChange={e => handleChange(e)} />
             </div>
             <div className={styles.inputGroup}>
               <label htmlFor="cpf">CPF *</label>
-              <input type="text" id="cpf" />
+              <input type="text" id="cpf" name="cpf" value={form.cpf} onChange={e => handleChange(e)} />
             </div>
           </form>
         </section>
